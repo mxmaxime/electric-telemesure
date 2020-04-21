@@ -9,7 +9,11 @@
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
-    "test": "jest"
+    "test": "jest",
+    "firebase-serve": "firebase serve --only functions",
+    "firebase-deploy": "firebase deploy --only functions",
+    "firebase-logs": "firebase functions:log",
+    "firebase-shell": "firebase functions:shell"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.3.6",
@@ -17,6 +21,8 @@
     "@nuxtjs/pwa": "^3.0.0-0",
     "chart.js": "^2.9.3",
     "date-fns": "^2.12.0",
+    "firebase": "^7.14.1",
+    "firebase-tools": "^8.1.0",
     "nuxt": "^2.0.0"
   },
   "devDependencies": {
