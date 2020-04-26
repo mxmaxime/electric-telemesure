@@ -15,7 +15,7 @@ export function topbarNavigation(isConnected: boolean): TopbarNavigation {
     },
     {
       title: 'Consommation électrique',
-      link: '/'
+      link: '/hoy'
     }
   ] as Array<LinkInterface>
 
