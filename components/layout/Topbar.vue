@@ -14,6 +14,15 @@
           <li>
             <nuxt-link to="/tutorials">Consommation électrique</nuxt-link>
           </li>
+          <li>
+            <nuxt-link to="/login">Login</nuxt-link>
+          </li>
+          <li>
+            <nuxt-link to="/register">Register</nuxt-link>
+          </li>
+          <li>
+            <a @click.prevent="logout" href="#">Logout</a>
+          </li>
       </ul>
 
     </nav>
@@ -22,7 +31,15 @@
 </template>
 
 <script>
+import { logout } from '@/services/firebase-logout';
+
 export default {
+  methods: {
+    async logout() {
+      const result = await logout()
+      console.log({result})
+    }
+  },
   data: () => ({
     connected: false
   })

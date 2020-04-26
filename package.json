@@ -16,6 +16,8 @@
     "firebase-shell": "firebase functions:shell"
   },
   "dependencies": {
+    "@nuxt/typescript-build": "^0.6.5",
+    "@nuxt/typescript-runtime": "^0.4.5",
     "@nuxtjs/axios": "^5.3.6",
     "@nuxtjs/dotenv": "^1.4.0",
     "@nuxtjs/pwa": "^3.0.0-0",
