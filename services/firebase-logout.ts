@@ -1,6 +1,11 @@
 import { auth } from './firebase-init';
 
-export async function logout() {
+export interface LogoutResponse {
+  success: boolean
+  error ?: Object,
+};
+
+export async function logout(): Promise<LogoutResponse> {
   try {
     await auth.signOut();
     return {success: true};
