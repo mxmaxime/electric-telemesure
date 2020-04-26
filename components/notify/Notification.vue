@@ -1,18 +1,13 @@
 <template>
-  <div class="alert" @click="remove()" >
-    <div class="alert-bubble">
-      <span
-        class="alert-bubble--type"
-        :class="className"
-      >
-      </span>
-    </div>
-
-    <div class="alert-content">
-      {{ notification.message }}
+  <div class="stats box--rounded" :class="className" @click="remove()" >
+    <div class="box__body">
+      <p v-if="notification.title">{{ notification.title }}</p>
+      <p v-if="notification.message">{{ notification.message }}</p>
     </div>
   </div>
 </template>
+
+<style lang="scss" scoped src="./notification.scss"></style>
 
 <script lang="ts">
 import Vue, {PropType} from 'vue';
@@ -21,14 +16,13 @@ import {NotificationInterface, NotificationService, NotificationServiceInterface
 
 export default Vue.extend({
   props: {
-    notification: {type: Object as PropType<NotificationInterface>, required: true},
-    timeout: {type: Number, default: 4000}
+    notification: {type: Object as PropType<NotificationInterface>, required: true}
   },
 
   data() {
     return {
       notificationService: new NotificationService(this.$store),
-      className: `alert-bubble--${this.notification.type}`
+      className: `notify--${this.notification.type}`
     }
   },
 
@@ -39,7 +33,9 @@ export default Vue.extend({
   },
 
   mounted() {
-    window.setTimeout(() => this.remove(), this.timeout);
+    if (this.notification.timeout) {
+      window.setTimeout(() => this.remove(), this.notification.timeout);
+    }
   },
 });
 </script>

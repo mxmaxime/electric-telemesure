@@ -1,12 +1,17 @@
+/**
+ * Values are used in css.
+ */
 export enum NotificationType {
-  SUCCESS,
-  WARNING,
-  ERROR
+  SUCCESS = "success",
+  WARNING = "warning",
+  ERROR = "error"
 }
 
 export interface NotificationInterface {
   type: NotificationType,
-  message: string
+  title?: string,
+  message: string,
+  timeout?: number
 }
 
 export interface NotificationServiceInterface {

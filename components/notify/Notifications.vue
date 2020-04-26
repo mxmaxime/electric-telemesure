@@ -1,6 +1,6 @@
 <template>
-  <div class="alert-block">
-    <transition-group name="alert">
+  <div class="l-container">
+    <transition-group class="l-stack" name="alert">
       <notification
         v-for="notification in notifications"
         :key="notification.message"
@@ -9,7 +9,6 @@
     </transition-group>
   </div>
 </template>
-
 
 <script lang="ts">
 import Vue, {PropType} from 'vue';
