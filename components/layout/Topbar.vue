@@ -15,22 +15,21 @@
 
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue';
+
 import { logout } from '@/services/firebase-logout';
 import { topbarNavigation } from './navigation';
+import {AuthService, AuthServiceInterface} from '@/components/auth/auth';
 
-export default {
-  methods: {
-    async logout() {
-      const result = await logout()
-      console.log({result})
+export default Vue.extend({
+  computed: {
+    navigation() {
+      const isConnected = this.$store.state.auth.isConnected;
+      return topbarNavigation(isConnected);
     }
-  },
-  data: () => ({
-    connected: false,
-    navigation: topbarNavigation()
-  })
-}
+  }
+});
 </script>
 
 <style lang="scss">

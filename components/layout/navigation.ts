@@ -3,29 +3,39 @@ interface LinkInterface {
   link: string
 }
 
-export function topbarNavigation() {
-  return {
-    main: [
-      {
-        title: 'Accueil',
-        link: '/',
-      },
-      {
-        title: 'Consommation électrique',
-        link: '/'
-      },
-      {
-        title: 'Login',
-        link: '/login'
-      },
-      {
-        title: 'Register',
-        link: '/register'
-      },
-      {
-        title: 'Logout',
-        link: '/logout'
-      }
-    ] as Array<LinkInterface>
+interface TopbarNavigation {
+  main: Array<LinkInterface>
+};
+
+export function topbarNavigation(isConnected: boolean): TopbarNavigation {
+  const main = [
+    {
+      title: 'Accueil',
+      link: '/',
+    },
+    {
+      title: 'Consommation électrique',
+      link: '/'
+    }
+  ] as Array<LinkInterface>
+
+  if (isConnected) {
+    main.push({
+      title: 'Logout',
+      link: '/logout'
+    })
+  } else {
+    main.push({
+      title: 'Login',
+      link: '/login'
+    },
+    {
+      title: 'Register',
+      link: '/register'
+    })
   }
+
+  return {
+    main
+  };
 }
