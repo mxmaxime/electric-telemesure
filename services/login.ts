@@ -1,10 +1,16 @@
 import { auth } from './firebase-init';
 
-export async function login(email: string, password: string) {
+export interface LoginResponse {
+  success: boolean
+  user?: Object,
+  error ?: Object,
+};
+
+export async function login(email: string, password: string): Promise<LoginResponse> {
   try {
     const user = await auth.signInWithEmailAndPassword(email, password);
-    return {user, success: true}
+    return {user, success: true};
   } catch(error) {
-    return {error, success: false}
+    return {error, success: false};
   }
-}
+};
