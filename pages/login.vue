@@ -17,6 +17,7 @@ export default Vue.extend({
       const loginResponse: LoginResponse = await login(this.email, this.password);
       if (loginResponse.success === true) {
         this.authService.login(loginResponse.user);
+        this.$router.push('/');
       } else {
         window.alert('Login failed');
       }
