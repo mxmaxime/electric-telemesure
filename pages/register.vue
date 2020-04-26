@@ -2,18 +2,22 @@
   <form @submit.prevent="register">
     <input v-model="email" type="text" placeholder="Your email" />
     <input v-model="password" type="password" placeholder="Your password" />
-    <button type="submit">Login</button>
+    <button type="submit">Register</button>
   </form>
 </template>
 <script lang="ts">
 import Vue from 'vue'
-import { register } from '@/services/register'
+import { register, RegisterResponse } from '@/services/register'
 
 export default Vue.extend({
   methods: {
     async register() {
-      const user = await register(this.email, this.password);
-      console.log('user connection', {user})
+      const registerResponse: RegisterResponse = await register(this.email, this.password);
+      if (registerResponse.success) {
+        this.$router.push('/');
+      } else {
+        window.alert('Registration failed');
+      }
     }
   },
   data() {
