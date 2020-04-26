@@ -1,30 +1,15 @@
 <template>
   <div class="topbar">
-    <!-- <nuxt-link to="/" class="topbar__logo"></nuxt-link> -->
-
     <nav
       class="topbar__nav l-container"
       role="navigation"
       aria-label="Menu principal">
 
       <ul class="topbar__nav__menu">
-          <li>
-            <nuxt-link to="/">Accueil</nuxt-link>
-          </li>
-          <li>
-            <nuxt-link to="/tutorials">Consommation électrique</nuxt-link>
-          </li>
-          <li>
-            <nuxt-link to="/login">Login</nuxt-link>
-          </li>
-          <li>
-            <nuxt-link to="/register">Register</nuxt-link>
-          </li>
-          <li>
-            <a @click.prevent="logout" href="#">Logout</a>
-          </li>
+        <li v-for="nav in navigation.main" :key="nav.link">
+          <nuxt-link :to="nav.link">{{ nav.title }}</nuxt-link>
+        </li>
       </ul>
-
     </nav>
   </div>
 
@@ -32,6 +17,7 @@
 
 <script>
 import { logout } from '@/services/firebase-logout';
+import { topbarNavigation } from './navigation';
 
 export default {
   methods: {
@@ -41,7 +27,8 @@ export default {
     }
   },
   data: () => ({
-    connected: false
+    connected: false,
+    navigation: topbarNavigation()
   })
 }
 </script>
