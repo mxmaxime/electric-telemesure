@@ -1,21 +1,23 @@
 <template>
-  <app-form
-    class="auth__panel auth__panel--primary"
-    :use-csrf="false"
-    :store="store"
-    :processForm="handleLogin"
-    :handleProcessFormError="handleLoginError"
-    :successCallback="handleSuccess"
-  >
+  <div class="l-container">
+    <app-form
+      class="box box__body"
+      :use-csrf="false"
+      :store="store"
+      :processForm="handleLogin"
+      :handleProcessFormError="handleLoginError"
+      :successCallback="handleSuccess"
+    >
 
-    <div slot="form-body">
-      <h3>Se connecter</h3>
-      <form-input name="email" type="email" label="E-mail" />
-      <form-input name="password" type="password" label="Mot de passe" />
-    </div>
+      <div slot="form-body">
+        <h3>Se connecter</h3>
+        <form-input name="email" type="email" label="E-mail" />
+        <form-input name="password" type="password" label="Mot de passe" />
+      </div>
 
-    <form-submit class="l-mt2" slot="form-actions">Se connecter</form-submit>
-  </app-form>
+      <form-submit class="l-mt2" slot="form-actions">Se connecter</form-submit>
+    </app-form>
+  </div>
 </template>
 
 <script lang="ts">
@@ -25,30 +27,17 @@ import {AuthService, AuthServiceInterface} from '@/components/auth/auth';
 import FormStore from '@/components/form/FormStore';
 import FormInput from '@/components/form/Input.vue';
 import FormSubmit from '@/components/form/Submit.vue';
-import AppForm, {ErrorsInterface} from '@/components/form/Form.vue';
-import { auth } from '@/services/firebase-init';
+import AppForm from '@/components/form/Form.vue';
+import {SignInWithEmailAndPasswordState, SignInWithEmailAndPassword} from '@/components/signin/signInWithEmailAndPassword';
+import {signInWithEmailAndPassword} from '@/components/signin/firebaseSignInWithEmailAndPassword';
 
+import {handleLoginError} from '@/components/signin/firebase/errorHandler'
+import {ErrorHandler} from '@/components/form/handleErrors'
 
-interface LoginStore {
-  email: string,
-  password: string
-};
-
-const formStore = new FormStore<LoginStore>({
+const formStore = new FormStore<SignInWithEmailAndPasswordState>({
   email: '',
   password: ''
 });
-
-async function handleLogin({email, password}: LoginStore) {
-  return await auth.signInWithEmailAndPassword(email, password);
-};
-
-function handleLoginError(e: any): ErrorsInterface {
-  console.log({e});
-  return {
-    'email': ['Bad email!']
-  }
-};
 
 export default Vue.extend({
   components: {
@@ -64,8 +53,8 @@ export default Vue.extend({
     return {
       authService: new AuthService(this.$store),
       store: formStore,
-      handleLogin,
-      handleLoginError
+      handleLogin: signInWithEmailAndPassword as SignInWithEmailAndPassword,
+      handleLoginError: handleLoginError /*as ErrorHandler*/
     }
   }
 });
