@@ -39,12 +39,9 @@
 
 body {
   background: var(--background);
-
-
   // scroll-margin: 100px 0 0 0; // What is this?
 }
 
 ::selection {
-  background: var(--contrast);
-  color: #FFF;
+  background: var(--shadow);
 }
