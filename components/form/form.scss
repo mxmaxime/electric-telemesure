@@ -1,0 +1,29 @@
+form {
+  --input-color: black;
+  --focused-label-color: green;
+
+  --line-color: var(--border-light);
+  --focused-line-color: red;
+}
+
+.form-group {
+  // margin-top: $gutters * 2;
+  // margin-bottom: $gutters * 2;
+  // display: flex;
+  // flex-wrap: wrap;
+}
+
+.field-error {
+  color: color('red', 'base');
+  font-size: 0.8rem;
+}
+
+.field {
+  position: relative;
+  height: 72px;
+  padding-top: 18px;
+}
+
+.field-textarea {
+  height: auto;
+}

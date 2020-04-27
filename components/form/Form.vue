@@ -14,9 +14,9 @@
 
   </form>
 </template>
+<style lang="scss" src="./form.scss"></style>
 
 <script lang="ts">
-// <style lang="scss" src="./style/form.scss"></style>
 
 import Vue, {PropType} from 'vue';
 import FormStore from './FormStore';
@@ -93,6 +93,7 @@ export default Vue.extend({
     const state = this.store.state;
 
     this.$on('update', function({ value, inputName }: any) {
+
       if (state.values[inputName] === undefined) {
         throw new Error(`Tu as dû oublier d'initialiser le champ "${inputName} lors de l'instanciation du Store !. Voici le state: ${JSON.stringify(state)}`);
       }
@@ -101,6 +102,7 @@ export default Vue.extend({
       if (state.errors[inputName]) {
         state.errors[inputName] = '';
       }
+
 
       state.values[inputName] = value;
     });
