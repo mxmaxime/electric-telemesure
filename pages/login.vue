@@ -2,7 +2,6 @@
   <div class="l-container">
     <app-form
       class="box box__body"
-      :use-csrf="false"
       :store="store"
       :processForm="handleLogin"
       :handleProcessFormError="handleLoginError"
@@ -21,23 +20,22 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { login, LoginResponse } from '@/services/login';
-import {AuthService, AuthServiceInterface} from '@/components/auth/auth';
+import Vue from 'vue';
+
 import FormStore from '@/components/form/FormStore';
 import FormInput from '@/components/form/Input.vue';
 import FormSubmit from '@/components/form/Submit.vue';
 import AppForm from '@/components/form/Form.vue';
-import {SignInWithEmailAndPasswordState, SignInWithEmailAndPassword} from '@/components/signin/signInWithEmailAndPassword';
-import {signInWithEmailAndPassword} from '@/components/signin/firebaseSignInWithEmailAndPassword';
 
-import {handleLoginError} from '@/components/signin/firebase/errorHandler'
-import {ErrorHandler} from '@/components/form/handleErrors'
+import {AuthService, AuthServiceInterface} from '@/components/auth/auth';
 
-const formStore = new FormStore<SignInWithEmailAndPasswordState>({
-  email: '',
-  password: ''
-});
+import {SignInWithEmailAndPassword} from '@/components/signin/signInWithEmailAndPassword';
+import {signInWithEmailAndPassword} from '@/components/signin/firebase/signInWithEmailAndPassword';
+
+import {ErrorHandler} from '@/components/form/handleErrors';
+import {handleLoginError} from '@/components/signin/firebase/errorHandler';
+
+import formStore from '@/components/form/stores/signInWithEmailAndPasswordStore';
 
 export default Vue.extend({
   components: {
@@ -54,7 +52,7 @@ export default Vue.extend({
       authService: new AuthService(this.$store),
       store: formStore,
       handleLogin: signInWithEmailAndPassword as SignInWithEmailAndPassword,
-      handleLoginError: handleLoginError /*as ErrorHandler*/
+      handleLoginError: handleLoginError as ErrorHandler
     }
   }
 });
