@@ -1,6 +1,10 @@
 <template>
-  <div>
-    <table-monitoring :table-monitoring="tableMonitoring" :dataset-informations="datasetInformations" />
+  <div class="l-container">
+    <div class="box">
+      <div class="box__body">
+        <table-monitoring :table-monitoring="tableMonitoring" :dataset-informations="datasetInformations" />
+      </div>
+    </div>
   </div>
 </template>
 

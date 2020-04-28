@@ -30,6 +30,11 @@
           </select>
         </div>
 
+        <div>
+          <label for="condition-value">condition-value</label>
+          <input v-model="conditionValue" id="condition-value" />
+        </div>
+
       </div>
     </form>
   </div>
@@ -52,6 +57,7 @@ export default Vue.extend({
       groupedByColumn: '',
       aggregationName: '',
       conditionName: '',
+      conditionValue: ''
     }
   },
 
