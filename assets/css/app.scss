@@ -1,22 +1,3 @@
-/**
- * Variables
- */
-:root {
-  --gap: 20px;
-  --space: 8px;
-  --border: #D5E3EC;
-  --border-light: #D5E3EC7F;
-
-  --background: hsl(240, 33%, 95%);
-  --background-light: #FFF;
-
-  --shadow: #D8E1E8;
-  --space-section: 150px;
-  --red: #FB4635;
-  --green: #41CF7C;
-  --yellow: #FEB32B;
-}
-
 @import "helpers/colors";
 @import "helpers/space";
 
@@ -31,7 +12,29 @@
 @import "tools/width";
 @import "tools/typography";
 @import "tools/box";
-@import "tools/form";
+@import "tools/button";
+
+/**
+ * Variables
+ */
+:root {
+  --gap: 20px;
+  --space: 8px;
+
+  --border: #D5E3EC;
+  --border-light: #D5E3EC7F;
+
+  --accent-color: #{color('mx-purple', 'base')};
+
+  --background: hsl(240, 33%, 95%);
+  --background-light: #FFF;
+
+  --shadow: #D8E1E8;
+  --space-section: 150px;
+  --red: #FB4635;
+  --green: #41CF7C;
+  --yellow: #FEB32B;
+}
 
 /**
  * Generic
