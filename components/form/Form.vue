@@ -1,5 +1,6 @@
 <template>
   <form
+    class="form"
     @submit="handleSubmit"
     method="POST">
 

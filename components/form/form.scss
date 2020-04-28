@@ -1,9 +1,29 @@
-form {
-  --input-color: black;
-  --focused-label-color: green;
+.form input,
+.form textarea,
+.form select,
+%input {
+  color: var(--color);
+}
 
-  --line-color: var(--border-light);
-  --focused-line-color: red;
+.form .select--white {
+  background-color: var(--background-light);
+}
+
+.form input {
+  @extend %input;
+}
+
+/**
+ * Accessibility
+ */
+.form-check input:focus + label::before,
+select:focus,
+textarea:focus,
+form button:focus,
+input:focus + label .switch,
+%input-active {
+  border-color: var(--contrast);
+  box-shadow: 0px 0px 3px var(--contrast);
 }
 
 .form-group {
