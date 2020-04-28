@@ -1,0 +1,85 @@
+@import "~/assets/css/helpers/_colors.scss";
+
+.field--text {
+  --focused-label-color: var(--accent-color);
+
+  --line-color: var(--border-light);
+  --focused-line-color: var(--accent-color);
+}
+
+@mixin field ($focusedClass, $errorClass) {
+
+  &::before, &::after {
+    content: '';
+    position: absolute;
+    bottom: 0px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--line-color);
+  }
+
+  &::after {
+    background-color: var(--focused-line-color);
+    transition-duration: .3s;
+    transition-property: transform;
+    transform: scaleX(0);
+  }
+
+  &.#{$focusedClass}::after {
+    transform: scaleX(1);
+  }
+
+  &.#{$errorClass}::before {
+    background-color: color('red', 'base')!important;
+  }
+
+  &.#{$errorClass} label {
+    color: color('red', 'base');
+  }
+}
+
+.field--text {
+  @include field('is-focused', 'has-error');
+}
+
+.field--text > input {
+  position: relative; // pour pouvoir cliquer sur l'input malgré le label
+  display: block;
+  width: 100%;
+  height: 32px;
+  padding: 8px 0;
+
+  // Reset
+  background-color: transparent;
+  border: none;
+  outline: none; // pour enlever le survole bleu des navigateurs
+  -webkit-appearance: none; // Sur IOS mise en place de shadow, on l'enlève grâce à ça.
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.field--text {
+  // pour pouvoir cliquer sur l'input malgré le label ! mettre label avant input
+  > label {
+    position: relative;
+    display: block;
+
+    transition-duration: .3s;
+    transition-property: transform, color;
+    transform: translateY(24px) scale(1); // au début, le label est dans l'input (effet de placeholder)
+    transform-origin: 0 50%;
+  }
+
+  &.is-focused > label {
+    color: var(--focused-label-color);
+    transform: scale(.8);
+  }
+
+  &.has-label > label {
+    transform: translateY(0);
+  }
+
+}

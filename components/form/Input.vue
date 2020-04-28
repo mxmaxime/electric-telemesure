@@ -20,6 +20,8 @@
   </div>
 </template>
 
+<style lang="scss" scoped src="./input.scss"></style>
+
 <script>
 export default {
   props: {
@@ -42,21 +44,21 @@ export default {
      * If I put this into my data, I loose the reactivity on the errors object (something like error: this.$parent.state.errors[this.name], I'm loosing the reference object, so the reactivity too.)
      */
     error() {
-      return this.$parent.state.errors[this.name]
+      return this.$parent.state.errors[this.name];
     }
 
   },
   methods: {
     handleFocus() {
-      this.labelClass = this.labeledClass + ' ' + this.focusedClass
+      this.labelClass = this.labeledClass + ' ' + this.focusedClass;
     },
 
     handleBlur() {
       if (this.value !== '') {
-        this.labelClass = this.labeledClass
+        this.labelClass = this.labeledClass;
       }
       else {
-        this.labelClass = ''
+        this.labelClass = '';
       }
     },
   },
@@ -67,15 +69,22 @@ export default {
      * It will update the FormStore thank's to the inputName.
      */
     value(val) {
-      // Update the parent value, so update the state !
-      this.$parent.$emit('update', {value: val, inputName: this.name})
+      /**
+       * Usecase: browser autofill.
+       * I receive a value from it, so I have to move up the label.
+       */
+      if (val) {
+        this.labelClass = this.labeledClass;
+      }
+
+      this.$parent.$emit('update', {value: val, inputName: this.name});
     },
 
     error(val) {
       if (val) {
-        this.className += 'field--error'
+        this.className += 'field--error';
       }
     }
-  },
+  }
 }
 </script>
