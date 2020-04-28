@@ -1,8 +1,8 @@
 export enum FieldType {
-  STRING,
-  NUMBER,
-  DATE,
-  BOOLEAN
+  STRING = "string",
+  NUMBER = "number",
+  DATE = "date",
+  BOOLEAN = "boolean",
 };
 
 export interface FieldDescriptor {
@@ -11,9 +11,15 @@ export interface FieldDescriptor {
 };
 
 export type Aggregations = Array<string>
+export type Conditions = Array<string>
+export type DatasetNames = Array<string>
 
 export type AggregationMap = {
   [x in FieldType]: Aggregations;
+};
+
+export type ConditionMap = {
+  [x in FieldType]: Conditions;
 };
 
 export interface DatasetInformationsInterface {
@@ -21,7 +27,7 @@ export interface DatasetInformationsInterface {
   /**
    * Returns a list of all available datasets.
    */
-  getDatasetNames(): Array<string>;
+  getDatasetNames(): DatasetNames;
 
   /**
    *
@@ -31,7 +37,7 @@ export interface DatasetInformationsInterface {
 }
 
 export class DatasetInformations implements DatasetInformationsInterface {
-  getDatasetNames(): Array<string> {
+  getDatasetNames(): DatasetNames {
     return [
       'users',
       'pushes'
@@ -41,18 +47,26 @@ export class DatasetInformations implements DatasetInformationsInterface {
   getFieldsOfDataset(datasetName: string): Array<FieldDescriptor> {
     // @TODO: choose fields by tableName.
 
-    return [{
-      name: 'created_at',
-      type: FieldType.DATE
-    }];
+    return [
+      {
+        name: 'created_at',
+        type: FieldType.DATE
+      },
+      {
+        name: 'consumption',
+        type: FieldType.NUMBER
+      }
+    ];
   }
 }
 
 export class TableMonitoring {
   private readonly aggregations: AggregationMap;
+  private readonly conditions: ConditionMap;
 
-  constructor(aggregations: AggregationMap) {
+  constructor(aggregations: AggregationMap, conditions: ConditionMap) {
     this.aggregations = aggregations;
+    this.conditions = conditions;
   }
 
   /**
@@ -67,7 +81,7 @@ export class TableMonitoring {
    * For a given field, what condition can I apply on it?
    * @param fieldDescriptor
    */
-  getConditionAvailable(fieldDescriptor: FieldDescriptor) {
-
+  getConditionAvailable(fieldDescriptor: FieldDescriptor): Conditions {
+    return this.conditions[fieldDescriptor.type];
   }
 }
