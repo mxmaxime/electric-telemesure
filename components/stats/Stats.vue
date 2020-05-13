@@ -18,51 +18,28 @@
     </div>
   </div>
 </template>
-<script>
-import Stat from './Stat'
-import {format} from 'date-fns'
-import {getDays, getLastMonthBoundaries, getLastWeekBoundaries} from './common-dates'
 
-export default {
+<script lang="ts">
+import Vue from 'vue'
+import Stat from './Stat.vue'
+import {format} from 'date-fns'
+import {dateFilters, FilterType, DateFilter} from '@/components/date-filters/date-filter'
+
+export default Vue.extend({
   components: {
     Stat
   },
   computed: {
     dateFilterInformation: function() {
-    const dateFormat = "eeee dd MMMM"
-    const {dates} = this.dateFilterSelected
+    // @ts-ignore
+    const {dates, format: dateFormat} = this.dateFilterSelected
 
     return `${format(dates.firstDate, dateFormat)} - ${format(dates.lastDate, dateFormat)}`
     }
   },
   data() {
-    const dateFilters = {
-      LAST_MONTH: {
-        choiceName: 'Last month',
-        dateFilterInformation: 'computedDays',
-        dates: getLastMonthBoundaries(),
-        xAxis: getDays()
-      },
-      LAST_WEEK: {
-        choiceName: 'Last week',
-        dateFilterInformation: 'computedDays',
-        dates: getLastWeekBoundaries(),
-        xAxis: getDays()
-      },
-      LAST_DAY: {
-        choiceName: 'Last day',
-        dateFilterInformation: 'computedHours',
-        xAxis: this.getHours
-      },
-      LAST_YEAR: {
-        choiceName: 'Last year',
-        dateFilterInformation: 'computedHours',
-        xAxis: this.getHours
-      }
-    }
-
     return {
-      dateFilterSelected: dateFilters.LAST_MONTH,
+      dateFilterSelected: dateFilters[FilterType.LAST_MONTH] as DateFilter,
       dateFilters
     }
   },
@@ -72,7 +49,8 @@ export default {
 
     }
   }
-}
+})
+
 </script>
 <style lang="scss">
 @import "~/assets/css/helpers/_space.scss";
