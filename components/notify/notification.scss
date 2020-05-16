@@ -1,0 +1,20 @@
+@import "~/assets/css/helpers/_colors.scss";
+
+%notify, .notify {
+  box-shadow: none;
+}
+
+.notify--success {
+  background-color: color('green', 'lightest');
+  color: color('green', 'darker');
+}
+
+.notify--warning {
+  background-color: color('orange', 'lightest');
+  color: color('orange', 'darker');
+}
+
+.notify--error {
+  background-color: color('red', 'lightest');
+  color: color('red', 'dark');
+}
