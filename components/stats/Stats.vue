@@ -1,10 +1,18 @@
 <template>
   <div class="l-stack-large">
     <div class="l-container l-stack">
-      <div class="form">
-        <select v-model="dateFilterSelected" class="h4" name="" id="">
-          <option v-for="choice, index in this.dateFilters" v-bind:value="choice" :key="index">{{ choice.choiceName }}</option>
-        </select>
+      <div class="stats-form">
+
+        <div>
+          <label for="last">Last</label>
+          <input id="last" v-model="isLast" type="checkbox" />
+        </div>
+
+        <div>
+          <select v-model="dateFilterSelected" class="h4" name="" id="">
+            <option v-for="choice, index in this.dateFilters" v-bind:value="choice" :key="index">{{ choice[isLast ? 'last' : 'current'].choiceName }}</option>
+          </select>
+        </div>
       </div>
       <p>{{ this.dateFilterInformation }}</p>
     </div>
@@ -18,51 +26,30 @@
     </div>
   </div>
 </template>
-<script>
-import Stat from './Stat'
-import {format} from 'date-fns'
-import {getDays, getLastMonthBoundaries, getLastWeekBoundaries} from './common-dates'
 
-export default {
+<script lang="ts">
+import Vue from 'vue'
+import Stat from './Stat.vue'
+import {format} from 'date-fns'
+import {dateFilters, DateFilter} from '@/components/date-filters/date-filter'
+import {FilterType} from '@/components/date-filters/common-dates'
+
+export default Vue.extend({
   components: {
     Stat
   },
   computed: {
     dateFilterInformation: function() {
-    const dateFormat = "eeee dd MMMM"
-    const {dates} = this.dateFilterSelected
+      // @ts-ignore
+      const {dates, format: dateFormat} = this.dateFilterSelected[this.isLast ? 'last' : 'current']
 
-    return `${format(dates.firstDate, dateFormat)} - ${format(dates.lastDate, dateFormat)}`
-    }
+      return `${format(dates.firstDate, dateFormat)} - ${format(dates.lastDate, dateFormat)}`
+    },
   },
   data() {
-    const dateFilters = {
-      LAST_MONTH: {
-        choiceName: 'Last month',
-        dateFilterInformation: 'computedDays',
-        dates: getLastMonthBoundaries(),
-        xAxis: getDays()
-      },
-      LAST_WEEK: {
-        choiceName: 'Last week',
-        dateFilterInformation: 'computedDays',
-        dates: getLastWeekBoundaries(),
-        xAxis: getDays()
-      },
-      LAST_DAY: {
-        choiceName: 'Last day',
-        dateFilterInformation: 'computedHours',
-        xAxis: this.getHours
-      },
-      LAST_YEAR: {
-        choiceName: 'Last year',
-        dateFilterInformation: 'computedHours',
-        xAxis: this.getHours
-      }
-    }
-
     return {
-      dateFilterSelected: dateFilters.LAST_MONTH,
+      isLast: false,
+      dateFilterSelected: dateFilters[FilterType.MONTH],
       dateFilters
     }
   },
@@ -72,11 +59,20 @@ export default {
 
     }
   }
-}
+})
+
 </script>
 <style lang="scss">
 @import "~/assets/css/helpers/_space.scss";
 @import "~/assets/css/helpers/_colors.scss";
+
+.stats-form {
+  display: flex;
+  align-items: center;
+  > * {
+    margin-right: calc(3 * var(--space));
+  }
+}
 
 .stats {
   display: grid;
