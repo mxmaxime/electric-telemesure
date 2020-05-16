@@ -28,14 +28,12 @@ import FormSubmit from '@/components/form/Submit.vue';
 import AppForm from '@/components/form/Form.vue';
 
 import {AuthService, AuthServiceInterface} from '@/components/auth/auth';
-
-import {SignInWithEmailAndPassword} from '@/components/signin/signInWithEmailAndPassword';
-import {signInWithEmailAndPassword} from '@/components/signin/firebase/signInWithEmailAndPassword';
-
 import {ErrorHandler} from '@/components/form/handleErrors';
-import {handleLoginError} from '@/components/signin/firebase/errorHandler';
 
-import formStore from '@/components/form/stores/signInWithEmailAndPasswordStore';
+import {signInWithEmailAndPassword} from '@/assets/js/signin/firebase/signInWithEmailAndPassword';
+import {handleLoginError} from '@/assets/js/signin/firebase/signInWithEmailAndPasswordErrorHandler';
+
+import formStore from '@/assets/js/signin/signInWithEmailAndPasswordStore';
 
 export default Vue.extend({
   components: {
@@ -51,7 +49,7 @@ export default Vue.extend({
     return {
       authService: new AuthService(this.$store),
       store: formStore,
-      handleLogin: signInWithEmailAndPassword as SignInWithEmailAndPassword,
+      handleLogin: signInWithEmailAndPassword,
       handleLoginError: handleLoginError as ErrorHandler
     }
   }

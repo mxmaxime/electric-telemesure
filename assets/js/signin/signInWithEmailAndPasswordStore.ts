@@ -1,5 +1,5 @@
 import FormStore from '@/components/form/FormStore.ts';
-import {SignInWithEmailAndPasswordState} from '@/components/signin/signInWithEmailAndPassword';
+import {SignInWithEmailAndPasswordState} from './signInWithEmailAndPassword';
 
 export default new FormStore<SignInWithEmailAndPasswordState>({
   email: '',

@@ -1,29 +1,57 @@
 <template>
-  <form @submit.prevent="register">
-    <input v-model="email" type="text" placeholder="Your email" />
-    <input v-model="password" type="password" placeholder="Your password" />
-    <button type="submit">Register</button>
-  </form>
+  <div class="l-container">
+    <app-form
+      class="box box__body"
+      :store="store"
+      :processForm="handleSignup"
+      :handleProcessFormError="handleLoginError"
+      :successCallback="handleSuccess"
+    >
+
+      <div slot="form-body">
+        <h3>S'inscrire</h3>
+        <form-input name="email" type="text" label="Your email" />
+        <form-input name="password" type="password" label="Your password" />
+      </div>
+
+      <form-submit class="l-mt2" slot="form-actions">Register</form-submit>
+
+    </app-form>
+  </div>
 </template>
 <script lang="ts">
-import Vue from 'vue'
-import { register, RegisterResponse } from '@/services/register'
+import Vue from 'vue';
+
+import {AuthService, AuthServiceInterface} from '@/components/auth/auth';
+
+import FormStore from '@/components/form/FormStore';
+import FormInput from '@/components/form/Input.vue';
+import FormSubmit from '@/components/form/Submit.vue';
+import AppForm from '@/components/form/Form.vue';
+
+import { register, RegisterResponse } from '@/services/register';
+
+import formStore from '@/assets/js/signup/createUserWithEmailAndPasswordStore';
+
+import {createUserWithEmailAndPassword} from '@/assets/js/signup/firebase/createUserWithEmailAndPassword';
+import {handleSignupError} from '@/assets/js/signup/firebase/createUserWithEmailAndPasswordErrorHandler';
+
+import {ErrorHandler} from '@/components/form/handleErrors';
+
 
 export default Vue.extend({
+  components: {
+    FormInput, FormSubmit, AppForm
+  },
+
   methods: {
-    async register() {
-      const registerResponse: RegisterResponse = await register(this.email, this.password);
-      if (registerResponse.success) {
-        this.$router.push('/');
-      } else {
-        window.alert('Registration failed');
-      }
-    }
   },
   data() {
     return {
-      email: '',
-      password: ''
+      store: formStore,
+      authService: new AuthService(this.$store),
+      handleSignup: createUserWithEmailAndPassword,
+      handleLoginError: handleSignupError as ErrorHandler
     }
   }
 })

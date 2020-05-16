@@ -3,6 +3,6 @@ export interface CreateUserWithEmailAndPasswordState {
   password: string
 };
 
-export interface SignInWithEmailAndPassword {
+export interface CreateUserWithEmailAndPassword {
   ({email, password}: CreateUserWithEmailAndPasswordState): Promise<any>;
 };
