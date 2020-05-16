@@ -1,13 +1,18 @@
 <template>
   <div class="l-stack-large">
     <div class="l-container l-stack">
-      <div class="form">
-        <label id="last">Last</label>
-        <input id="last" v-model="isLast" type="checkbox" />
+      <div class="stats-form">
 
-        <select v-model="dateFilterSelected" class="h4" name="" id="">
-          <option v-for="choice, index in this.dateFilters" v-bind:value="choice" :key="index">{{ choice[isLast ? 'last' : 'current'].choiceName }}</option>
-        </select>
+        <div>
+          <label for="last">Last</label>
+          <input id="last" v-model="isLast" type="checkbox" />
+        </div>
+
+        <div>
+          <select v-model="dateFilterSelected" class="h4" name="" id="">
+            <option v-for="choice, index in this.dateFilters" v-bind:value="choice" :key="index">{{ choice[isLast ? 'last' : 'current'].choiceName }}</option>
+          </select>
+        </div>
       </div>
       <p>{{ this.dateFilterInformation }}</p>
     </div>
@@ -60,6 +65,14 @@ export default Vue.extend({
 <style lang="scss">
 @import "~/assets/css/helpers/_space.scss";
 @import "~/assets/css/helpers/_colors.scss";
+
+.stats-form {
+  display: flex;
+  align-items: center;
+  > * {
+    margin-right: calc(3 * var(--space));
+  }
+}
 
 .stats {
   display: grid;
