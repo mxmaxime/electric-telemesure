@@ -11,7 +11,7 @@ export interface NotificationInterface {
   type: NotificationType,
   title?: string,
   message: string,
-  timeout?: number
+  timeoutMs?: number
 }
 
 export interface NotificationServiceInterface {

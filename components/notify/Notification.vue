@@ -22,7 +22,7 @@ export default Vue.extend({
   data() {
     return {
       notificationService: new NotificationService(this.$store),
-      className: `notify--${this.notification.type}`
+      className: `notify notify--${this.notification.type}`
     }
   },
 
@@ -33,8 +33,8 @@ export default Vue.extend({
   },
 
   mounted() {
-    if (this.notification.timeout) {
-      window.setTimeout(() => this.remove(), this.notification.timeout);
+    if (this.notification.timeoutMs) {
+      window.setTimeout(() => this.remove(), this.notification.timeoutMs);
     }
   },
 });
