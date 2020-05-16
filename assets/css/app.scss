@@ -6,6 +6,7 @@
   --space: 8px;
   --border: #D5E3EC;
   --border-light: #D5E3EC7F;
+  --contrast: #4869EE;
 
   --background: hsl(240, 33%, 95%);
   --background-light: #FFF;
@@ -46,5 +47,5 @@ body {
 
 ::selection {
   background: var(--contrast);
-  color: #FFF;
+  color: #fff;
 }
