@@ -31,35 +31,26 @@ export function getDateBoundary(date: Date, getStart: Function, getEnd: Function
   }
 }
 
-export const getMonthBoundaries = (date: Date) => getDateBoundary(date, startOfMonth, endOfMonth)
-export const getWeekBoundaries = (date: Date) => getDateBoundary(date, startOfWeek, endOfWeek)
-export const getYearBoundaries = (date: Date) => getDateBoundary(date, startOfYear, endOfYear)
-export const getDayBoundaries = (date: Date) => getDateBoundary(date, startOfDay, endOfDay)
+export enum FilterType {
+  MONTH,
+  WEEK,
+  DAY,
+  YEAR,
+};
 
-export function getLastMonthBoundaries() {
-  const now = new Date()
-  const lastMonth = subMonths(now, 1)
-
-  return getMonthBoundaries(lastMonth)
+const filters = {
+  [FilterType.MONTH]: { getStart: startOfMonth, getEnd: endOfMonth, sub: subMonths },
+  [FilterType.WEEK]: { getStart: startOfWeek, getEnd: endOfWeek, sub: subWeeks },
+  [FilterType.YEAR]: { getStart: startOfYear, getEnd: endOfYear, sub: subYears },
+  [FilterType.DAY]: { getStart: startOfDay, getEnd: endOfDay, sub: subDays },
 }
 
-export function getLastWeekBoundaries() {
+export function getDateBoundaries(filterType: FilterType, last: boolean = false) {
+  const filter = filters[filterType]
   const now = new Date()
-  const lastWeek = subWeeks(now, 1)
+  const date = last ? now : filter.sub(now, 1)
 
-  return getWeekBoundaries(lastWeek)
-}
+  const getEnd = last ? filter.getEnd : () => now
 
-export function getLastYearBoundaries() {
-  const now = new Date()
-  const lastYear = subYears(now, 1)
-
-  return getYearBoundaries(lastYear)
-}
-
-export function getLastDayBoundaries() {
-  const now = new Date()
-  const lastDay = subDays(now, 1)
-
-  return getDayBoundaries(lastDay)
+  return getDateBoundary(date, filter.getStart, getEnd)
 }

@@ -2,8 +2,11 @@
   <div class="l-stack-large">
     <div class="l-container l-stack">
       <div class="form">
+        <label id="last">Last</label>
+        <input id="last" v-model="isLast" type="checkbox" />
+
         <select v-model="dateFilterSelected" class="h4" name="" id="">
-          <option v-for="choice, index in this.dateFilters" v-bind:value="choice" :key="index">{{ choice.choiceName }}</option>
+          <option v-for="choice, index in this.dateFilters" v-bind:value="choice" :key="index">{{ choice[isLast ? 'last' : 'current'].choiceName }}</option>
         </select>
       </div>
       <p>{{ this.dateFilterInformation }}</p>
@@ -23,7 +26,8 @@
 import Vue from 'vue'
 import Stat from './Stat.vue'
 import {format} from 'date-fns'
-import {dateFilters, FilterType, DateFilter} from '@/components/date-filters/date-filter'
+import {dateFilters, DateFilter} from '@/components/date-filters/date-filter'
+import {FilterType} from '@/components/date-filters/common-dates'
 
 export default Vue.extend({
   components: {
@@ -31,15 +35,16 @@ export default Vue.extend({
   },
   computed: {
     dateFilterInformation: function() {
-    // @ts-ignore
-    const {dates, format: dateFormat} = this.dateFilterSelected
+      // @ts-ignore
+      const {dates, format: dateFormat} = this.dateFilterSelected[this.isLast ? 'last' : 'current']
 
-    return `${format(dates.firstDate, dateFormat)} - ${format(dates.lastDate, dateFormat)}`
-    }
+      return `${format(dates.firstDate, dateFormat)} - ${format(dates.lastDate, dateFormat)}`
+    },
   },
   data() {
     return {
-      dateFilterSelected: dateFilters[FilterType.LAST_MONTH] as DateFilter,
+      isLast: false,
+      dateFilterSelected: dateFilters[FilterType.MONTH],
       dateFilters
     }
   },
