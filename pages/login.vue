@@ -5,6 +5,7 @@
       :store="store"
       :processForm="handleLogin"
       :handleProcessFormError="handleLoginError"
+      :handleErrorMessage="handleErrorMessage"
       :successCallback="handleSuccess"
     >
 
@@ -35,6 +36,9 @@ import {handleLoginError} from '@/assets/js/signin/firebase/signInWithEmailAndPa
 
 import formStore from '@/assets/js/signin/signInWithEmailAndPasswordStore';
 
+import {NotificationService, NotificationServiceInterface, NotificationType} from '@/components/notify/notify';
+
+
 export default Vue.extend({
   components: {
     FormInput, FormSubmit, AppForm
@@ -42,16 +46,32 @@ export default Vue.extend({
   methods: {
     handleSuccess(user: Object) {
       this.authService.login(user);
+
+      this.notificationService.add({
+        type: NotificationType.SUCCESS,
+        message: `Ravi de vous revoir !`,
+        timeoutMs: 2500
+      });
+
       this.$router.push('/');
+    },
+
+    handleErrorMessage(message: string) {
+      this.notificationService.add({
+        type: NotificationType.ERROR,
+        message,
+      });
     }
   },
   data() {
     return {
       authService: new AuthService(this.$store),
+      notificationService: new NotificationService(this.$store),
       store: formStore,
       handleLogin: signInWithEmailAndPassword,
       handleLoginError: handleLoginError as ErrorHandler
     }
-  }
+  },
+
 });
 </script>

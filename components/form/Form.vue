@@ -26,6 +26,7 @@ import {ErrorHandler, ErrorsInterface} from '@/components/form/handleErrors';
 export default Vue.extend({
   props: {
     processForm: { type: Function as PropType<(values: Object) => Promise<any>>, required: true },
+    handleErrorMessage: { type: Function as PropType<(message: string) => void>, required: true},
     handleProcessFormError: { type: Function as PropType<ErrorHandler>, required: true },
 
     store: { type: Object as PropType<FormStore<any>>, required: true },
@@ -66,7 +67,7 @@ export default Vue.extend({
       } catch (e) {
         const errorResponse: ErrorsInterface = this.handleProcessFormError(e);
         if (errorResponse.message) {
-          console.log("I've got a message for you:", errorResponse.message);
+          this.handleErrorMessage(errorResponse.message);
         } else {
           // @TODO handle form input errors.
         }

@@ -9,6 +9,8 @@ export const handleLoginError = (e: any): ErrorsInterface => {
   }
 
   return {
-    'email': ['Bad email!']
+    fields: {
+      'email': ['Bad email!']
+    }
   }
 };

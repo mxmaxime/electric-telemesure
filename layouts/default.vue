@@ -40,22 +40,6 @@ export default Vue.extend({
     notifications() {
       return this.$store.state.notify.notifications
     }
-  },
-  mounted() {
-    this.notificationService.add({
-      type: NotificationType.SUCCESS,
-      message: `Ravi de vous revoir !`
-    });
-
-    this.notificationService.add({
-      type: NotificationType.WARNING,
-      message: `Warning, you have to take your responsability!`
-    });
-
-    this.notificationService.add({
-      type: NotificationType.ERROR,
-      message: `Oh boy... something went wrong but I don't know what!`
-    });
   }
 })
 </script>
