@@ -7,6 +7,19 @@ const db = admin.firestore();
 const app = express();
 
 /**
+ * Convert hex from Sigfox to int.
+ * Weird function but it works.
+ */
+function hex_to_ascii(str1: string): Number {
+  var hex  = str1.toString();
+  var str = '';
+  for (var n = 0; n < hex.length; n += 2) {
+      str += String.fromCharCode(parseInt(hex.substr(n, 2), 16));
+  }
+  return parseInt(str);
+}
+
+/**
  *
  * Catch Errors Handler
  * With async/await, you need some way to catch errors
@@ -22,31 +35,25 @@ export const catchErrors = function (fn: any) {
     }
 
     fn(req, res, next).catch(next)
-
   }
 }
 
-// const asyncMiddleware = function(fn) {
-//   (req: express.Response, res: express.Response, next: any) => {
-//     Promise.resolve(fn(req, res, next))
-//       .catch(next);
-//   };
-// }
-
-
 app.post('/push/electricity', catchErrors(async (req: express.Request, res: express.Response) => {
-  const now = Date.now()
-  const collection = db.collection('arduino_electricity_push')
+  const now = Date.now();
+  const collection = db.collection('arduino_electricity_push');
 
-  const data = req.body;
-  console.log({data})
+  const body = req.body;
+
+  if (!body.data) {
+    return res.sendStatus(400);
+  }
 
   await collection.add({
     'created_time': now,
-    ...data
+    data: hex_to_ascii(body.data),
   });
 
-  return res.sendStatus(201)
+  return res.sendStatus(201);
 }));
 
 // Expose Express API as a single Cloud Function:
