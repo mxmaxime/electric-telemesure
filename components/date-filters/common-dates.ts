@@ -46,11 +46,11 @@ const filters = {
 }
 
 export function getDateBoundaries(filterType: FilterType, last: boolean = false) {
-  const filter = filters[filterType]
-  const now = new Date()
-  const date = last ? now : filter.sub(now, 1)
+  const filter = filters[filterType];
+  const now = new Date();
+  const date = last ? filter.sub(now, 1) : now;
 
-  const getEnd = last ? filter.getEnd : () => now
+  const getEnd = last ? filter.getEnd : () => now;
 
-  return getDateBoundary(date, filter.getStart, getEnd)
+  return getDateBoundary(date, filter.getStart, getEnd);
 }

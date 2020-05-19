@@ -35,13 +35,26 @@ import {dateFilters, DateFilter} from '@/components/date-filters/date-filter'
 import {FilterType} from '@/components/date-filters/common-dates'
 
 export default Vue.extend({
+  props: {
+    onDateRangeChange: { type: Function, required: true },
+  },
   components: {
     Stat
   },
   computed: {
+    currentDateFilterSelected() {
+      // @ts-ignore
+      const dates = this.dateFilterSelected[this.isLast ? 'last' : 'current'];
+
+      // @ts-ignore
+      this.onDateRangeChange(dates);
+
+      return dates;
+    },
+
     dateFilterInformation: function() {
       // @ts-ignore
-      const {dates, format: dateFormat} = this.dateFilterSelected[this.isLast ? 'last' : 'current']
+      const {dates, format: dateFormat} = this.currentDateFilterSelected
 
       return `${format(dates.firstDate, dateFormat)} - ${format(dates.lastDate, dateFormat)}`
     },

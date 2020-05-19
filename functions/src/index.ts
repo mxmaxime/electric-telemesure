@@ -1,6 +1,8 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 import express = require('express');
+import {subDays, startOfDay, addHours, getTime} from 'date-fns';
+
 
 admin.initializeApp();
 const db = admin.firestore();
@@ -50,8 +52,54 @@ app.post('/push/electricity', catchErrors(async (req: express.Request, res: expr
 
   await collection.add({
     'created_time': now,
-    data: hex_to_ascii(body.data),
+    kw_per_hour: hex_to_ascii(body.data),
   });
+
+  return res.sendStatus(201);
+}));
+
+
+/**
+ * Generate fake data
+ */
+app.post('/push/generate', catchErrors(async (req: express.Request, res: express.Response) => {
+  // min and max included
+  function randomIntFromInterval(min: number, max: number): number {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+
+  const data = [];
+
+  const dayNb = 15;
+  const now = new Date();
+
+  // Every day, generate for x days
+  for (let day = 0; day < dayNb; day++) {
+
+    const dayDate = startOfDay(subDays(now, dayNb - day));
+
+    // Every hour
+    for (let hour = 0; hour < 23; hour++) {
+      const dayHourDate = addHours(dayDate, hour);
+      const conso = randomIntFromInterval(1, 14);
+
+      data.push({
+        created_time: getTime(dayHourDate),
+        kw_per_hour: conso
+      });
+
+    }
+  }
+
+  const batch = db.batch();
+
+  data.forEach((doc) => {
+    //automatically generate unique id
+    const docRef = db.collection("arduino_electricity_push_test").doc();
+    batch.set(docRef, doc);
+  });
+
+  await batch.commit();
 
   return res.sendStatus(201);
 }));
