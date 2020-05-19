@@ -34,7 +34,7 @@ export const dateFilters = {
       xAxis: getDays()
     },
     current: {
-      choiceName: 'THis week',
+      choiceName: 'This week',
       format: 'eeee dd MMMM',
       dates: getDateBoundaries(FilterType.WEEK, false),
       xAxis: getDays()
